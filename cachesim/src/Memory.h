@@ -7,8 +7,8 @@ class Memory
 public:
 	Memory();
 	virtual ~Memory();
-	std::vector<char> read(uint address, uint blockSize);
-	bool write(uint address, char content);
+	std::vector<uint> read(uint address, uint blockSize);
+	bool write(uint address, uint content);
 	
 	
 private:
