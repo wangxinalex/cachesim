@@ -4,15 +4,17 @@ using namespace std;
 
 Memory::Memory()
 {
+	for(int i=0;i<= 0x1fffff;i++)
+		contents.push_back(0);
 }
 
 Memory::~Memory()
 {
 }
 
-vector<char> Memory::read(uint address, uint blockSize)
+vector<uint> Memory::read(uint address, uint blockSize)
 {
-	vector<char> result;
+	vector<uint> result;
 	uint startPos = (address/blockSize);
 	startPos *=blockSize;
 	if(address <= 0xffffffff) {
@@ -26,7 +28,7 @@ vector<char> Memory::read(uint address, uint blockSize)
 }
 
 
-bool Memory::write(uint address, char content)
+bool Memory::write(uint address, uint content)
 {
 	if(address <= 0xffffffff) {
 			contents[address]=content;
