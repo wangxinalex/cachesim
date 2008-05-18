@@ -8,7 +8,7 @@
 class Cache
 {
 public:
-	Cache(uint tS, uint ass, uint bS, Memory* mP);
+	Cache(uint tS, uint ass, uint bS);
 	virtual ~Cache();
 	uint read(uint memAddress);
 	void write(uint value, uint memAddress);
@@ -19,11 +19,11 @@ private:
 	uint totalSize;
 	uint associativity;
 	uint blockSize;
-	std::vector<uint> content;
-	Memory* memPointer;
+	//std::vector<uint> content;
+	//Memory* memPointer;
 	std::map<uint,uint> blockMap;
 	std::map<uint,uint> invMap;
-	std::set<uint> dirties;
+	//std::set<uint> dirties;
 	void replace(uint memAddress);
 	uint missCounter;
 	
