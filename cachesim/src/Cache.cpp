@@ -6,17 +6,17 @@
 #include <iostream>
 
 using namespace std;
-Cache::Cache(uint tS, uint ass, uint bS, Memory* mP)
+Cache::Cache(uint tS, uint ass, uint bS)
 {
 	totalSize = tS/4;
 	associativity = ass;
 	blockSize = bS/4;
-	memPointer = mP;
+	//memPointer = mP;
 	missCounter=0;
-	for(int i=0;i<=totalSize;i++)
+	/*for(int i=0;i<=totalSize;i++)
 	{
 		content.push_back(0);
-	}
+	} */
 }
 
 Cache::~Cache()
@@ -39,8 +39,8 @@ uint Cache::read(uint memAddress)
 		map<uint,uint>::iterator iter = blockMap.find(memAddNorm);
 		//cout << " CacheRead2" << endl;
 		if(iter != blockMap.end()) {
-			uint cacheAdd = iter->second;
-			return content[cacheAdd*blockSize + offset];
+			//uint cacheAdd = iter->second;
+			return /*content[cacheAdd*blockSize + offset];*/ 0;
 			
 //			cout << "CacheRead IF" << endl;
 		}
@@ -49,8 +49,8 @@ uint Cache::read(uint memAddress)
 //			cout << "CacheRead ELSE" << endl;
 			missCounter++;
 			replace(memAddNorm);
-			iter = blockMap.find(memAddNorm);
-			return content[(iter->second)*blockSize + offset];
+			//iter = blockMap.find(memAddNorm);
+			return /*content[(iter->second)*blockSize + offset];*/ 0;
 		}
 		//cout << " CacheRead3" << endl;		
 	}
@@ -60,7 +60,7 @@ void Cache::replace(uint memAddress)
 {
 //	cout << " CacheReplace1" << endl;
 	uint blockNum = memAddress/blockSize;
-	vector<uint> newBlock = memPointer->read(memAddress,blockSize);
+	//vector<uint> newBlock = memPointer->read(memAddress,blockSize);
 	uint setNum = memAddress % ( totalSize/(associativity*blockSize) );
 	srand(time(0));
 	uint setPos = rand() % associativity;
@@ -90,15 +90,15 @@ void Cache::replace(uint memAddress)
 		blockMap.erase(iter->second);
 		uint memOldBlockAddress = iter->second;
 		invMap.erase(cacheAddress);
-		if(dirties.find(cacheAddress)!= dirties.end())
+		/*if(dirties.find(cacheAddress)!= dirties.end())
 		{
 			for(int i=0;i<blockSize;i++)
 			{
-				memPointer->write(memOldBlockAddress +i, content[cacheAddress*blockSize + i ]);
+				//memPointer->write(memOldBlockAddress +i, content[cacheAddress*blockSize + i ]);
 				
 			}
-		}
-	}
+		} */
+	} 
 	
 	
 //	cout << " CacheReplace3" << endl;
@@ -106,10 +106,10 @@ void Cache::replace(uint memAddress)
 	blockMap[memAddress]=cacheAddress;
 	invMap[cacheAddress]=memAddress;
 //	cout << " CacheReplace4 + cacheAddress:" << cacheAddress << endl;
-	for(int i=0;i< newBlock.size();i++)
+/*	for(int i=0;i< newBlock.size();i++)
 	{
 		content[cacheAddress*blockSize + i ] = newBlock[i];
-	}
+	} */
 	
 }
 
@@ -117,13 +117,13 @@ void Cache::write(uint value, uint memAddress)
 {
 	read(memAddress);
 	//cout << "oi 11" << endl;
-	uint cacheAddress = blockMap[memAddress];
+	//uint cacheAddress = blockMap[memAddress];
 	//cout << "oi 12" << endl;
-	uint offset = memAddress%blockSize;
+	//uint offset = memAddress%blockSize;
 	//cout << "oi 13" << endl;
-	content[cacheAddress*blockSize + offset]=value;
+	//content[cacheAddress*blockSize + offset]=value;
 	//cout << "oi 14" << endl;
-	dirties.insert(cacheAddress);
+	//dirties.insert(cacheAddress);
 	
 }
 
@@ -132,7 +132,7 @@ void Cache::clear()
 	missCounter =0;
 	blockMap.clear();
 	invMap.clear();
-	dirties.clear();
+	//dirties.clear();
 	
 }
 
